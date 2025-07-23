@@ -1,4 +1,4 @@
-:root {
+/* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -65,4 +65,28 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+} */
+
+/* Global Styles */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5faff;
+  color: #222;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+h1,
+h2 {
+  color: #004080;
+}
+
+main {
+  padding: 2rem;
+  max-width: 960px;
+  margin: auto;
 }
