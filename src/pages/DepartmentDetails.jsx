@@ -1,25 +1,49 @@
 import { useParams } from "react-router";
-import { departments } from "../data/departments";
-import { faculty } from "../data/faculty";
+import { useEffect, useState } from "react";
+import { fetchDepartmentById, fetchFaculty } from "../api/api";
 import FacultyCard from "../components/FacultyCard";
 
 export default function DepartmentDetails() {
   const { id } = useParams();
-  const dept = departments.find((d) => d.id === parseInt(id));
+  const [department, setDepartment] = useState(null);
+  const [facultyList, setFacultyList] = useState([]);
+  const [error, setError] = useState(null);
 
-  if (!dept) return <p>Department not found.</p>;
+  useEffect(() => {
+    async function load() {
+      try {
+        const dept = await fetchDepartmentById(id);
+        setDepartment(dept);
 
-  const deptFaculty = faculty.filter((f) => dept.faculty.includes(f.id));
+        const allFaculty = await fetchFaculty();
+        const deptFaculty = allFaculty.filter(
+          (f) => f.departmentId === parseInt(id)
+        );
+        setFacultyList(deptFaculty);
+      } catch (err) {
+        setError(err.message);
+      }
+    }
+
+    load();
+  }, [id]);
+
+  if (error) return <p>{error}</p>;
+  if (!department) return <p>Loading department...</p>;
 
   return (
     <div>
-      <h2>{dept.name}</h2>
-      <img src={dept.imageUrl} alt={`Banner for ${dept.name}`} width="400" />
-      <p>{dept.description}</p>
-      <p>Contact: {dept.contact}</p>
+      <h2>{department.name}</h2>
+      <img
+        src={department.imageUrl}
+        alt={`Banner for ${department.name}`}
+        width="400"
+      />
+      <p>{department.description}</p>
+      <p>Contact: {department.contact}</p>
 
       <h3>Faculty</h3>
-      {deptFaculty.map((prof) => (
+      {facultyList.map((prof) => (
         <FacultyCard key={prof.id} professor={prof} />
       ))}
     </div>

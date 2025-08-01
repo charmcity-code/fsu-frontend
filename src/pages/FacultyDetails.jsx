@@ -1,25 +1,51 @@
 import { useParams } from "react-router";
-import { faculty } from "../data/faculty";
-import { departments } from "../data/departments";
+import { useEffect, useState } from "react";
+import { fetchFacultyById, fetchDepartments } from "../api/api";
 import { Link } from "react-router";
 
 export default function FacultyDetails() {
   const { id } = useParams();
-  const prof = faculty.find((p) => p.id === parseInt(id));
+  const [professor, setProfessor] = useState(null);
+  const [department, setDepartment] = useState(null);
+  const [error, setError] = useState(null);
 
-  if (!prof) return <p>Professor not found.</p>;
+  useEffect(() => {
+    async function load() {
+      try {
+        const prof = await fetchFacultyById(id);
+        setProfessor(prof);
 
-  const dept = departments.find((d) => d.id === prof.departmentId);
+        const departments = await fetchDepartments();
+        const dept = departments.find((d) => d.id === prof.departmentId);
+        setDepartment(dept);
+      } catch (err) {
+        setError(err.message);
+      }
+    }
+
+    load();
+  }, [id]);
+
+  if (error) return <p>{error}</p>;
+  if (!professor) return <p>Loading professor...</p>;
 
   return (
     <div>
-      <img src={prof.profileImg} alt={`Profile of ${prof.name}`} width="100" />
-      <h2>{prof.name}</h2>
-      <p>{prof.bio}</p>
-      <p>Email: {prof.email}</p>
+      <img
+        src={professor.profileImg}
+        alt={`Profile of ${professor.name}`}
+        width="100"
+      />
+      <h2>{professor.name}</h2>
+      <p>{professor.bio}</p>
+      <p>Email: {professor.email}</p>
       <p>
         Department:{" "}
-        {dept ? <Link to={`/departments/${dept.id}`}>{dept.name}</Link> : "N/A"}
+        {department ? (
+          <Link to={`/departments/${department.id}`}>{department.name}</Link>
+        ) : (
+          "N/A"
+        )}
       </p>
     </div>
   );
