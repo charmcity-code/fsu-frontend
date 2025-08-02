@@ -1,29 +1,43 @@
-import "./App.css"; //V
+// --- Ashley's imports ---
+import "./App.css"; //
 import { Routes, Route } from "react-router";
-import Layout from "./layout/Layout";
-import DepartmentsList from "./pages/DepartmentsList";
-import DepartmentDetails from "./pages/DepartmentDetails";
-import FacultyList from "./pages/FacultyList";
-import FacultyDetails from "./pages/FacultyDetails";
-import Error404 from "./pages/Error404"; //^
+import Layout from "./layout/Layout"; //
+import DepartmentsList from "./pages/DepartmentsList"; //
+import DepartmentDetails from "./pages/DepartmentDetails"; //
+import FacultyList from "./pages/FacultyList"; //
+import FacultyDetails from "./pages/FacultyDetails"; //
+import Error404 from "./pages/Error404"; //
+
+// --- Josh's imports ---
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   return (
     <>
-      <h1>Welcome to FSU</h1>
+      {/* This outer h1 might be removed if the Navbar in Layout handles it */}
+      <h1>Welcome to FSU</h1> {/* */}
       <Routes>
-        <Route element={<Layout />}>
-          <Route index element={<DepartmentsList />} />
-          <Route path="/departments" element={<DepartmentsList />} />
-          <Route path="/departments/:id" element={<DepartmentDetails />} />
-          <Route path="/faculty" element={<FacultyList />} />
-          <Route path="/faculty/:id" element={<FacultyDetails />} />
-          <Route path="*" element={<Error404 />} />
+        {/* Public routes that use the shared Layout with Navbar */}
+        <Route element={<Layout />}> {/* */}
+          <Route index element={<DepartmentsList />} /> {/* */}
+          <Route path="/departments" element={<DepartmentsList />} /> {/* */}
+          <Route path="/departments/:id" element={<DepartmentDetails />} /> {/* */}
+          <Route path="/faculty" element={<FacultyList />} /> {/* */}
+          <Route path="/faculty/:id" element={<FacultyDetails />} /> {/* */}
         </Route>
+
+        {/* Admin routes that do NOT use the shared Layout */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+
+        {/* Catch-all 404 route */}
+        <Route path="*" element={<Error404 />} /> {/* */}
       </Routes>
     </>
   );
 }
-//added routes
 
 export default App;
