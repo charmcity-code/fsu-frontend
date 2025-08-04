@@ -66,3 +66,23 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.card {
+  padding: 1rem;
+  margin: 1rem auto;
+  max-width: 500px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.02);
+  background-color: #f0f0ff;
+}
+
+.card img {
+  border-radius: 4px;
+  margin-top: 0.5rem;
+}
