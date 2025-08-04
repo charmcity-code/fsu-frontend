@@ -5,7 +5,7 @@ export default function DepartmentCard({ department }) {
     <div className="card">
       <h3>{department.name}</h3>
       <img
-        src={department.imageUrl}
+        src={department.images}
         alt={`Banner for ${department.name}`}
         width="400"
       />
