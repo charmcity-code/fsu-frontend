@@ -1,29 +1,53 @@
-import "./App.css"; //V
+// --- Ashley's imports ---
+import "./App.css"; //
 import { Routes, Route } from "react-router";
-import Layout from "./layout/Layout";
-import DepartmentsList from "./pages/DepartmentsList";
-import DepartmentDetails from "./pages/DepartmentDetails";
-import FacultyList from "./pages/FacultyList";
-import FacultyDetails from "./pages/FacultyDetails";
-import Error404 from "./pages/Error404"; //^
+import Layout from "./layout/Layout"; //
+import DepartmentsList from "./pages/DepartmentsList"; //
+import DepartmentDetails from "./pages/DepartmentDetails"; //
+import FacultyList from "./pages/FacultyList"; //
+import FacultyDetails from "./pages/FacultyDetails"; //
+import Error404 from "./pages/Error404"; //
+
+// --- Josh's imports ---
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import AdminDashboard from "./pages/AdminDashboard";
+import { AuthProvider } from "./context/AuthContext";
+import ManageDepartments from "./pages/admin/ManageDepartments";
+import ManageFaculty from "./pages/admin/ManageFaculty";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       <h1>Welcome to FSU</h1>
       <Routes>
+        {/* Public routes that use the shared Layout with Navbar */}
         <Route element={<Layout />}>
           <Route index element={<DepartmentsList />} />
           <Route path="/departments" element={<DepartmentsList />} />
           <Route path="/departments/:id" element={<DepartmentDetails />} />
           <Route path="/faculty" element={<FacultyList />} />
           <Route path="/faculty/:id" element={<FacultyDetails />} />
-          <Route path="*" element={<Error404 />} />
         </Route>
+
+        {/* Admin routes that do NOT use the shared Layout */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        
+        {/* --- MODIFIED ADMIN ROUTE --- */}
+        <Route path="/admin" element={ <ProtectedRoute> <AdminDashboard /> </ProtectedRoute> }
+        >
+          {/* Nested routes render inside AdminDashboard's <Outlet> */}
+          <Route path="departments" element={<ManageDepartments />} />
+          <Route path="faculty" element={<ManageFaculty />} />
+        </Route>
+
+        {/* Catch-all 404 route */}
+        <Route path="*" element={<Error404 />} />
       </Routes>
-    </>
+    </AuthProvider>
   );
 }
-//added routes
 
 export default App;
