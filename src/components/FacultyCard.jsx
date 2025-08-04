@@ -1,10 +1,11 @@
 import { Link } from "react-router";
-
 export default function FacultyCard({ professor }) {
+  console.log("FacultyCard:", professor);
+
   return (
     <div className="card">
       <img
-        src={professor.profileImg}
+        src={professor.profileimage}
         alt={`Profile of ${professor.name}`}
         width="100"
       />

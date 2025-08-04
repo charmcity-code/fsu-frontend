@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:3000";
+const API_BASE = "http://localhost:3000/api";
 // GET: all departments
 export async function fetchDepartments() {
   const res = await fetch(`${API_BASE}/departments`);

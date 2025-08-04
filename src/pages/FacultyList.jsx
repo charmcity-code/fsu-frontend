@@ -8,10 +8,12 @@ export default function FacultyList() {
 
   useEffect(() => {
     fetchFaculty()
-      .then(setFacultyList)
+      .then((data) => {
+        console.log("Faculty data:", data); //log-it-ol
+        setFacultyList(data);
+      })
       .catch((err) => setError(err.message));
   }, []);
-
   if (error) return <p>{error}</p>;
   if (!facultyList.length) return <p>Loading faculty...</p>;
 
