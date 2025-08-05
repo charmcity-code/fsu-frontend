@@ -1,6 +1,7 @@
 import { Link } from "react-router";
-
 export default function FacultyCard({ professor }) {
+  console.log("FacultyCard:", professor);
+
   return (
     <div className="card">
       <img
