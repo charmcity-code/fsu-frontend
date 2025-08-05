@@ -17,7 +17,7 @@ export default function DepartmentDetails() {
 
         const allFaculty = await fetchFaculty();
         const deptFaculty = allFaculty.filter(
-          (f) => f.departmentId === parseInt(id)
+          (f) => f.department_id === parseInt(id)
         );
         setFacultyList(deptFaculty);
       } catch (err) {
@@ -40,7 +40,7 @@ export default function DepartmentDetails() {
         width="400"
       />
       <p>{department.description}</p>
-      <p>Contact: {department.contact}</p>
+      <p>Contact: {department.contactinfo}</p>
 
       <h3>Faculty</h3>
       {facultyList.map((prof) => (

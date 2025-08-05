@@ -16,7 +16,7 @@ export default function FacultyDetails() {
         setProfessor(prof);
 
         const departments = await fetchDepartments();
-        const dept = departments.find((d) => d.id === prof.departmentId);
+        const dept = departments.find((d) => d.id === prof.department_id);
         setDepartment(dept);
       } catch (err) {
         setError(err.message);
@@ -39,7 +39,7 @@ export default function FacultyDetails() {
       />
       <h2>{professor.name}</h2>
       <p>{professor.bio}</p>
-      <p>Email: {professor.email}</p>
+      <p>Email: {professor.contactinfo}</p>
       <p>
         Department:{" "}
         {department ? (
