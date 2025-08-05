@@ -1,0 +1,75 @@
+/* Styles for the main list on both pages */
+.manage-list {
+  list-style: none;
+  padding: 0;
+}
+
+.manage-list-item {
+  margin: 20px 0;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px; /* Added for softer edges */
+}
+
+/* Container for the Edit/Delete buttons */
+.item-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px; /* Adds space between buttons */
+}
+
+/* General styles for the Add/Edit forms */
+.manage-form {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+}
+
+.form-divider {
+  margin: 20px 0;
+  border-color: #eee;
+}
+
+/* Specific to the faculty management section in DepartmentForm */
+.faculty-management-container {
+  display: flex;
+  margin-top: 15px;
+  gap: 20px;
+}
+
+.faculty-list-box {
+  flex: 1;
+  border: 1px solid #eee;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.manage-form textarea {
+  min-height: 100px;
+  width: 70%;       
+  resize: vertical; 
+
+  padding: 0.6em 1.2em;
+  /* border-radius: 8px;
+  border: 1px solid #ccc; */
+  box-sizing: border-box;
+}
+
+.manage-form > div {
+  display: flex;        
+  align-items: center;  
+  gap: 15px;            
+  margin-bottom: 1rem;  
+}
+
+.manage-form > div:has(textarea) {
+  align-items: flex-start;
+}
+
+.manage-form label {
+  width: 150px;         
+  text-align: right;      
+  flex-shrink: 0;        
+  padding-top: 5px;     
+}
