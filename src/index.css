@@ -77,10 +77,10 @@ button:focus-visible {
   transition: transform 0.2s ease-in-out;
 }
 
-.card:hover {
+/* .card:hover {
   transform: scale(1.02);
   background-color: #f0f0ff;
-}
+} */
 
 .card img {
   border-radius: 4px;

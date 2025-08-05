@@ -10,7 +10,6 @@ export default function Navbar() {
       <nav>
   <NavLink to="/departments">Departments</NavLink> |{" "}
   <NavLink to="/faculty">Faculty</NavLink>
-  {/* Conditional link/button */}
   {token ? (
     <button onClick={logout}>Logout</button>
   ) : (

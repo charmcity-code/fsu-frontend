@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 import { fetchFaculty, fetchDepartments, createFaculty, updateFaculty, deleteFaculty } from '../../api/api';
 import { useAuth } from '../../context/AuthContext';
-import FacultyForm from '../../components/FacultyForm'; // Assumes FacultyForm is in the components directory
+import FacultyForm from '../../components/FacultyForm';
+import './ManagePages.css'; // Import the shared CSS file
 
 export default function ManageFaculty() {
-  // --- STATE MANAGEMENT ---
+  // State management
   const [faculty, setFaculty] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { token } = useAuth();
-  // This one state now controls everything about editing/adding
   const [editingFaculty, setEditingFaculty] = useState(null); 
 
-  // --- DATA LOADING ---
+  // Data loading function
   const loadData = async () => {
     try {
       setLoading(true);
@@ -31,11 +31,12 @@ export default function ManageFaculty() {
     }
   };
 
+  // Load data on initial component mount
   useEffect(() => {
     loadData();
   }, []);
 
-  // --- HANDLER FUNCTIONS ---
+  // Handler for deleting a faculty member
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this professor?')) return;
     try {
@@ -51,6 +52,7 @@ export default function ManageFaculty() {
     }
   };
 
+  // Handler for submitting the Add/Edit form
   const handleFormSubmit = async (formData) => {
     try {
       setLoading(true);
@@ -71,6 +73,7 @@ export default function ManageFaculty() {
     }
   };
   
+  // Handlers for form visibility
   const handleEditClick = (prof) => {
     setEditingFaculty(prof);
   };
@@ -83,7 +86,7 @@ export default function ManageFaculty() {
     setEditingFaculty(null);
   };
 
-  // --- RENDER LOGIC ---
+  // Render logic
   if (loading && !faculty.length) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
@@ -91,10 +94,8 @@ export default function ManageFaculty() {
     <div>
       <h2>Manage Faculty</h2>
       
-      {/* Show "Add" button only when not editing or adding */}
       {!editingFaculty && <button onClick={handleAddClick}>Add New Professor</button>}
       
-      {/* Show the "Add" form at the top if editingFaculty is an empty object */}
       {editingFaculty && !editingFaculty.id && (
         <FacultyForm 
           initialData={{}} 
@@ -105,11 +106,9 @@ export default function ManageFaculty() {
         />
       )}
 
-      <ul style={{ listStyle: 'none', padding: 0 }}>
+      <ul className="manage-list">
         {faculty.map((prof) => (
-          <li key={prof.id} style={{ margin: '10px 0', border: '1px solid #ddd', padding: '10px' }}>
-
-            {/* If we ARE editing this professor, render the form here */}
+          <li key={prof.id} className="manage-list-item">
             {editingFaculty && editingFaculty.id === prof.id ? (
               <FacultyForm 
                 initialData={editingFaculty}
@@ -119,12 +118,11 @@ export default function ManageFaculty() {
                 loading={loading} 
               />
             ) : (
-              // Otherwise, render the normal view
               <>
                 <strong>{prof.name}</strong>
-                <div style={{ marginTop: '5px' }}>
+                <div className="item-actions">
                   <button onClick={() => handleEditClick(prof)} disabled={loading}>Edit</button>
-                  <button onClick={() => handleDelete(prof.id)} disabled={loading} style={{ marginLeft: '10px' }}>Delete</button>
+                  <button onClick={() => handleDelete(prof.id)} disabled={loading}>Delete</button>
                 </div>
               </>
             )}

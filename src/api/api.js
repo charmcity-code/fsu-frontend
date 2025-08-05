@@ -140,7 +140,7 @@ export async function registerUser(userData) {
     const errorInfo = await res.json();
     throw new Error(errorInfo.message || 'Failed to register');
   }
-  // Change this line from res.json() to res.text()
+  // Changed this line from res.json() to res.text()
   return await res.text(); 
 }
 

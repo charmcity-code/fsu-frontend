@@ -1,11 +1,10 @@
 import { createContext, useState, useContext } from "react";
 
-// 1. Create the context
+// Create the context
 const AuthContext = createContext();
 
-// 2. Create the provider component
+// Create the provider component
 export function AuthProvider({ children }) {
-  // For now, we'll check localStorage for a token
   const [token, setToken] = useState(localStorage.getItem("authToken"));
 
   // This function will be called from the LoginPage
@@ -28,7 +27,7 @@ export function AuthProvider({ children }) {
   return <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>;
 }
 
-// 3. Create a custom hook for easy access to the context
+// Create a custom hook for easy access to the context
 export const useAuth = () => {
   return useContext(AuthContext);
 };

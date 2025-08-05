@@ -1,38 +1,36 @@
 import { useState, useEffect } from 'react';
 
-// A reusable form for adding/editing a faculty member
 export default function FacultyForm({ initialData = {}, departments = [], onSubmit, onCancel, loading }) {
   const [formData, setFormData] = useState({
-    name: initialData.name || '',
-    bio: initialData.bio || '',
-    profileImage: initialData.profileImage || '',
-    contactInfo: initialData.contactInfo || '',
-    // Use 'departmentId' to match the API response
-    departmentId: initialData.departmentId || '' 
+    name: '',
+    bio: '',
+    profileImage: '',
+    contactInfo: '',
+    departmentId: ''
   });
 
-  // Ensure form updates if the initialData changes
+  // This effect runs when initialData changes, populating the form for editing
   useEffect(() => {
-    setFormData({
-      name: initialData.name || '',
-      bio: initialData.bio || '',
-      profileImage: initialData.profileImage || '',
-      contactInfo: initialData.contactInfo || '',
-      // Use 'departmentId' here as well
-      departmentId: initialData.departmentId || ''
-    });
+    if (initialData) {
+      setFormData({
+        name: initialData.name || '',
+        bio: initialData.bio || '',
+        profileImage: initialData.profileImage || '',
+        contactInfo: initialData.contactInfo || '',
+        departmentId: initialData.departmentId || ''
+      });
+    }
   }, [initialData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // Ensure departmentId is stored as a number
-    const finalValue = name === 'departmentId' ? parseInt(value, 10) : value;
+    // Ensure departmentId is stored as a number if a department is selected
+    const finalValue = name === 'departmentId' && value ? parseInt(value, 10) : value;
     setFormData(prev => ({ ...prev, [name]: finalValue }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Check formData.departmentId
     if (!formData.name || !formData.departmentId) {
       alert('Name and Department are required.');
       return;
@@ -41,25 +39,39 @@ export default function FacultyForm({ initialData = {}, departments = [], onSubm
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ border: '1px solid #ccc', padding: '1rem', margin: '1rem 0' }}>
-      <h3>{initialData.id ? 'Edit Professor' : 'Add Professor'}</h3>
-      <input name="name" value={formData.name} onChange={handleChange} placeholder="Name" required />
-      <textarea name="bio" value={formData.bio} onChange={handleChange} placeholder="Biography" />
-      <input name="profileImage" value={formData.profileImage} onChange={handleChange} placeholder="Profile Image URL" />
-      <input name="contactInfo" value={formData.contactInfo} onChange={handleChange} placeholder="Contact Info" />
-      
-      {/* Update the name and value for the select dropdown */}
-      <select name="departmentId" value={formData.departmentId} onChange={handleChange} required>
-        <option value="">Select a Department</option>
-        {departments.map(dept => (
-          <option key={dept.id} value={dept.id}>{dept.name}</option>
-        ))}
-      </select>
+    <form onSubmit={handleSubmit} className="manage-form">
+      <h3>{initialData.id ? `Edit ${initialData.name}` : 'Add New Professor'}</h3>
       
       <div>
+        <label htmlFor="name">Name</label>
+        <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
+      </div>
+      <div>
+        <label htmlFor="bio">Bio</label>
+        <textarea id="bio" name="bio" value={formData.bio} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="profileImage">Profile Image URL</label>
+        <input type="text" id="profileImage" name="profileImage" value={formData.profileImage} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="contactInfo">Contact Info</label>
+        <input type="text" id="contactInfo" name="contactInfo" value={formData.contactInfo} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="departmentId">Department</label>
+        <select id="departmentId" name="departmentId" value={formData.departmentId} onChange={handleChange} required>
+          <option value="">Select a Department</option>
+          {departments.map(dept => (
+            <option key={dept.id} value={dept.id}>{dept.name}</option>
+          ))}
+        </select>
+      </div>
+      
+      <div className="item-actions">
         <button type="submit" disabled={loading}>{loading ? 'Saving...' : 'Save'}</button>
         <button type="button" onClick={onCancel} disabled={loading}>Cancel</button>
       </div>
     </form>
   );
-};
+}
