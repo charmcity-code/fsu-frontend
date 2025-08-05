@@ -81,6 +81,7 @@ button:focus-visible {
 .card:hover {
   transform: scale(1.02);
   background-color: #f0f0ff;
+  box-shadow: #050611 1rem;
 }
 
 .card img {
