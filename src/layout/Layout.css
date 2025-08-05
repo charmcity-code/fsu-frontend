@@ -1,0 +1,31 @@
+.main-layout-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.admin-sidebar {
+  width: 200px;
+  padding: 1rem;
+  border-right: 1px solid #ccc;
+  flex-shrink: 0; 
+}
+
+.admin-sidebar h2 {
+  margin-top: 0;
+  font-size: 1.2em;
+}
+
+.admin-sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-sidebar button {
+  margin-top: 1rem;
+}
+
+.main-content-area {
+  flex-grow: 1;
+  padding: 1rem;
+}

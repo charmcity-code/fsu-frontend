@@ -1,44 +1,131 @@
-import React from 'react';
-
-// Dummy data until we fetch from the API
-const dummyFaculty = [
-  { id: 1, name: 'Dr. Ada Lovelace' },
-  { id: 2, name: 'Dr. Alan Turing' },
-];
+import { useState, useEffect } from 'react';
+import { fetchFaculty, fetchDepartments, createFaculty, updateFaculty, deleteFaculty } from '../../api/api';
+import { useAuth } from '../../context/AuthContext';
+import FacultyForm from '../../components/FacultyForm';
+import './ManagePages.css'; // Import the shared CSS file
 
 export default function ManageFaculty() {
-  const handleAdd = () => {
-    const name = prompt('Enter new professor name:');
-    if (name) {
-      console.log('DUMMY HANDLER: Adding professor -', name);
+  // State management
+  const [faculty, setFaculty] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { token } = useAuth();
+  const [editingFaculty, setEditingFaculty] = useState(null); 
+
+  // Data loading function
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const [facultyData, departmentsData] = await Promise.all([
+        fetchFaculty(),
+        fetchDepartments()
+      ]);
+      setFaculty(facultyData);
+      setDepartments(departmentsData);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleEdit = (id) => {
-    const newName = prompt('Enter new name for professor ' + id);
-    if (newName) {
-      console.log(`DUMMY HANDLER: Editing professor ${id} to ${newName}`);
+  // Load data on initial component mount
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  // Handler for deleting a faculty member
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this professor?')) return;
+    try {
+      setLoading(true);
+      await deleteFaculty(id, token);
+      alert('Professor deleted successfully!');
+      await loadData();
+    } catch (err) {
+      alert(`Error: ${err.message}`);
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete professor ' + id + '?')) {
-      console.log('DUMMY HANDLER: Deleting professor -', id);
+  // Handler for submitting the Add/Edit form
+  const handleFormSubmit = async (formData) => {
+    try {
+      setLoading(true);
+      if (editingFaculty && editingFaculty.id) {
+        await updateFaculty(editingFaculty.id, formData, token);
+        alert('Professor updated successfully!');
+      } else {
+        await createFaculty(formData, token);
+        alert('Professor created successfully!');
+      }
+      setEditingFaculty(null); // Hide form on success
+      await loadData();
+    } catch (err) {
+      alert(`Error: ${err.message}`);
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
+  
+  // Handlers for form visibility
+  const handleEditClick = (prof) => {
+    setEditingFaculty(prof);
+  };
+  
+  const handleAddClick = () => {
+    setEditingFaculty({}); // An empty object signifies "add mode"
+  }
+
+  const handleCancelForm = () => {
+    setEditingFaculty(null);
+  };
+
+  // Render logic
+  if (loading && !faculty.length) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div>
       <h2>Manage Faculty</h2>
-      <button onClick={handleAdd}>Add New Professor</button>
-      <ul style={{ listStyle: 'none', padding: 0 }}>
-        {dummyFaculty.map((prof) => (
-          <li key={prof.id} style={{ margin: '10px 0', border: '1px solid #ddd', padding: '10px' }}>
-            {prof.name}
-            <div style={{ marginTop: '5px' }}>
-              <button onClick={() => handleEdit(prof.id)}>Edit</button>
-              <button onClick={() => handleDelete(prof.id)} style={{ marginLeft: '10px' }}>Delete</button>
-            </div>
+      
+      {!editingFaculty && <button onClick={handleAddClick}>Add New Professor</button>}
+      
+      {editingFaculty && !editingFaculty.id && (
+        <FacultyForm 
+          initialData={{}} 
+          departments={departments}
+          onSubmit={handleFormSubmit} 
+          onCancel={handleCancelForm} 
+          loading={loading} 
+        />
+      )}
+
+      <ul className="manage-list">
+        {faculty.map((prof) => (
+          <li key={prof.id} className="manage-list-item">
+            {editingFaculty && editingFaculty.id === prof.id ? (
+              <FacultyForm 
+                initialData={editingFaculty}
+                departments={departments}
+                onSubmit={handleFormSubmit} 
+                onCancel={handleCancelForm} 
+                loading={loading} 
+              />
+            ) : (
+              <>
+                <strong>{prof.name}</strong>
+                <div className="item-actions">
+                  <button onClick={() => handleEditClick(prof)} disabled={loading}>Edit</button>
+                  <button onClick={() => handleDelete(prof.id)} disabled={loading}>Delete</button>
+                </div>
+              </>
+            )}
           </li>
         ))}
       </ul>

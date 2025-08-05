@@ -35,7 +35,7 @@ export default function DepartmentDetails() {
     <div>
       <h2>{department.name}</h2>
       <img
-        src={department.images}
+        src={department.images} // Change this from department.imageUrl
         alt={`Banner for ${department.name}`}
         width="400"
       />

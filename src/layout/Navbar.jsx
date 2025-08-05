@@ -8,15 +8,17 @@ export default function Navbar() {
     <header>
       <h1>Fullstack University</h1>
       <nav>
-        <NavLink to="/departments">Departments</NavLink> |{" "}
-        <NavLink to="/faculty">Faculty</NavLink>
-        {/* Conditional link/button */}
-        {token ? (
-          <button onClick={logout}>Logout</button>
-        ) : (
-          <NavLink to="/login"> | Admin Login</NavLink>
-        )}
-      </nav>
+  <NavLink to="/departments">Departments</NavLink> |{" "}
+  <NavLink to="/faculty">Faculty</NavLink>
+  {token ? (
+    <button onClick={logout}>Logout</button>
+  ) : (
+    <>
+      <NavLink to="/login"> | Admin Login</NavLink> |{" "}
+      <NavLink to="/register">Register</NavLink>
+    </>
+  )}
+</nav>
     </header>
   );
 }
