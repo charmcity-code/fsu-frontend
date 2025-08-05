@@ -29,11 +29,9 @@ function App() {
           <Route path="/departments/:id" element={<DepartmentDetails />} />
           <Route path="/faculty" element={<FacultyList />} />
           <Route path="/faculty/:id" element={<FacultyDetails />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Route>
-
-        {/* Admin routes that do NOT use the shared Layout */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
         
         {/* --- MODIFIED ADMIN ROUTE --- */}
         <Route path="/admin" element={ <ProtectedRoute> <AdminDashboard /> </ProtectedRoute> }
