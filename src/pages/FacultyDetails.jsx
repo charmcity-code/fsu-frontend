@@ -39,7 +39,7 @@ export default function FacultyDetails() {
       />
       <h2>{professor.name}</h2>
       <p>{professor.bio}</p>
-      <p>Email: {professor.contactinfo}</p>
+      <p>Email: {professor.contactInfo}</p>
       <p>
         Department:{" "}
         {department ? (
