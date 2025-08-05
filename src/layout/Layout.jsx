@@ -1,4 +1,4 @@
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink } from "react-router";
 import Navbar from "./Navbar";
 import { useAuth } from "../context/AuthContext";
 import "./Layout.css";
