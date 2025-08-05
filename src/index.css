@@ -78,7 +78,7 @@ button:focus-visible {
   color: #050611;
 }
 
-/* .card:hover {
+.card:hover {
   transform: scale(1.02);
   background-color: #f0f0ff;
   box-shadow: #050611 1rem;
