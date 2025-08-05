@@ -16,7 +16,7 @@ export default function FacultyDetails() {
         setProfessor(prof);
 
         const departments = await fetchDepartments();
-        const dept = departments.find((d) => d.id === prof.departmentId);
+        const dept = departments.find((d) => d.id === prof.department_id);
         setDepartment(dept);
       } catch (err) {
         setError(err.message);

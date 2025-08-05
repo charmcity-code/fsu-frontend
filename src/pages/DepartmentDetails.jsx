@@ -17,7 +17,7 @@ export default function DepartmentDetails() {
 
         const allFaculty = await fetchFaculty();
         const deptFaculty = allFaculty.filter(
-          (f) => f.departmentId === parseInt(id)
+          (f) => f.department_id === parseInt(id)
         );
         setFacultyList(deptFaculty);
       } catch (err) {
