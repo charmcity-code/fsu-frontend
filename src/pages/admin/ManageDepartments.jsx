@@ -188,7 +188,15 @@ export default function ManageDepartments() {
       <h2>Manage Departments</h2>
       {!editingDept && <button onClick={handleAddClick}>Add New Department</button>}
       {editingDept && !editingDept.id && (
-          <DepartmentForm initialData={{}} onSubmit={handleFormSubmit} onCancel={handleCancelForm} loading={loading} faculty={[]} department={{}} onFacultyChange={()=>{}} />
+          <DepartmentForm 
+          initialData={{}} 
+          onSubmit={handleFormSubmit} 
+          onCancel={handleCancelForm} 
+          loading={loading} 
+          faculty={faculty} 
+          department={{}} 
+          onFacultyChange={()=>{}} 
+          />
       )}
       
       <ul className="manage-list">

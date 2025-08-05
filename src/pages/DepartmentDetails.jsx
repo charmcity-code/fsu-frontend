@@ -40,7 +40,7 @@ export default function DepartmentDetails() {
         width="400"
       />
       <p>{department.description}</p>
-      <p>Contact: {department.contact}</p>
+      <p>Contact: {department.contactInfo}</p>
 
       <h3>Faculty</h3>
       {facultyList.map((prof) => (
