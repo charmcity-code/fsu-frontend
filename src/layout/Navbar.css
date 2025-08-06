@@ -1,0 +1,68 @@
+.navbar-branding {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 1rem; /* 1. Pushes the navigation links down */
+}
+
+.navbar-titles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.1;
+  text-align: left; /* Add this line */
+}
+
+.navbar-titles h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.navbar-titles h1 {
+  margin-top: 0;
+  margin-bottom: 0.25rem; /* 2. Reduces space between title and motto */
+}
+
+/* 3. Adds styling for the new motto */
+.navbar-motto {
+  margin: 1; /* Removes default paragraph spacing */
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.navbar-logo {
+  height: 150px;
+  width: auto;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem; /* Creates space between the links, replacing the '|' */
+  
+  background-color: #0d1b3f; /* A dark navy blue */
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+/* This styles the links themselves for better contrast */
+nav a {
+  color: #c0c8e0; /* A light, soft blue for the text */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+nav a:hover {
+  color: #ffffff; /* Make links brighter on hover */
+}
+
+/* 2. This makes the currently active link bold */
+/* React Router automatically adds the 'active' class to the current link */
+nav a.active {
+  font-weight: 700; /* A bolder weight for the active link */
+  color: #ffffff;
+}
